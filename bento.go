@@ -13,6 +13,12 @@ For production:
 For the sandbox:
     session, err := bento.GetTestSession("myTestAccessKey", "myTestSecretKey")
 
+Once you have a session, you can begin doing things like getting and updating
+cards and other resources associated with your bento account.
+
+See the Session object's methods to see the types of objects you can interact
+with. This is a good starting point from which you can begin to understand the
+other types provided in this package.
 */	
 package bento
 import (
