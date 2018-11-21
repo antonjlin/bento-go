@@ -8,8 +8,8 @@ https://apidocs.bentoforbusiness.com/ for detailed info on how the API works.
 
 ### Basics
 
-In order to begin interacting with Bento, you need to obtain a *BentoSession
-This can be done via the following functions: For production:
+In order to begin interacting with Bento, you need to obtain a *Session This can
+be done via the following functions: For production:
 
     session, err := bento.GetProductionSession("myAccessKey", "mySecretKey")
 
