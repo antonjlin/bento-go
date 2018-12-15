@@ -299,6 +299,14 @@ func GetProductionSession(accessKey, secretKey string) (*Session, error)
 func GetTestSession(accessKey, secretKey string) (*Session, error)
 ```
 
+#### func (*Session) ClearLogger
+
+```go
+func (session *Session) ClearLogger()
+```
+ClearLogger clears any logger set by SetLogger from session. After this call
+completes, nothing will be logged by the session.
+
 #### func (*Session) GetBusiness
 
 ```go
@@ -328,6 +336,14 @@ func (session *Session) GetTransactions() (*Transactions, error)
 ```go
 func (session *Session) NewCard(cardType CardType, alias string) (*Card, error)
 ```
+
+#### func (*Session) SetLogger
+
+```go
+func (session *Session) SetLogger(logger *log.Logger)
+```
+SetLogger sets a *log.Logger on the session. All requests and responses will be
+logged to that logger.
 
 #### type SpendingLimit
 

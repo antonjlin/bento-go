@@ -263,8 +263,16 @@ func getSession(apiUri, accessKey, secretKey string) (*Session, error) {
 	return session, nil
 }
 
+// SetLogger sets a *log.Logger on the session. All requests and responses will
+// be logged to that logger.
 func (session *Session) SetLogger(logger *log.Logger) {
 	session.logger = logger
+}
+
+// ClearLogger clears any logger set by SetLogger from session. After this call
+// completes, nothing will be logged by the session.
+func (session *Session) ClearLogger() {
+	session.logger = log.New(ioutil.Discard, "", 0)
 }
 
 func doRequest(session *Session, method, endpoint string, args interface{}) ([]byte, error) {
