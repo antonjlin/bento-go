@@ -28,6 +28,7 @@ import (
 	"errors"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 )
 
 // Session provides the entry point to interact with the API.
@@ -36,6 +37,7 @@ type Session struct {
 	apiUri string
 	authorization string
 	requester func(*Session, string, string, interface{}) ([]byte, error)
+	logger *log.Logger
 }
 
 // AddressType can be "BUSINESS_ADDRESS" or "USER_ADDRESS"
@@ -256,8 +258,13 @@ func getSession(apiUri, accessKey, secretKey string) (*Session, error) {
 		apiUri: apiUri,
 		authorization: auth[0],
 		requester: doRequest,
+		logger: log.New(ioutil.Discard, "", 0),
 	}
 	return session, nil
+}
+
+func (session *Session) SetLogger(logger *log.Logger) {
+	session.logger = logger
 }
 
 func doRequest(session *Session, method, endpoint string, args interface{}) ([]byte, error) {
@@ -292,6 +299,7 @@ func doRequest(session *Session, method, endpoint string, args interface{}) ([]b
 		req.Header.Add("Accept", "*/*")
 		req.Header.Add("Authorization", session.authorization)
 	}
+	session.logger.Printf("Sending request: %#v", *req)
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -299,6 +307,7 @@ func doRequest(session *Session, method, endpoint string, args interface{}) ([]b
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
+	session.logger.Printf("Received response: %#v", body)
 	if err != nil {
 		return nil, err
 	}
