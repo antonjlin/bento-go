@@ -8,10 +8,10 @@ Basics
 In order to begin interacting with Bento, you need to obtain a *Session
 This can be done via the following functions:
 For production:
-    session, err := bento.GetProductionSession("myAccessKey", "mySecretKey")
+	session, err := bento.GetProductionSession("myAccessKey", "mySecretKey")
 
 For the sandbox:
-    session, err := bento.GetTestSession("myTestAccessKey", "myTestSecretKey")
+	session, err := bento.GetTestSession("myTestAccessKey", "myTestSecretKey")
 
 Once you have a session, you can begin doing things like getting and updating
 cards and other resources associated with your bento account.
@@ -19,7 +19,7 @@ cards and other resources associated with your bento account.
 See the Session object's methods to see the types of objects you can interact
 with. This is a good starting point from which you can begin to understand the
 other types provided in this package.
-*/	
+*/
 package bento
 import (
 	"fmt"
@@ -288,6 +288,8 @@ func doRequest(session *Session, method, endpoint string, args interface{}) ([]b
 		req.Header.Add("Content-Type", "application\\json")
 		req.Header.Add("Accept", "*/*")
 		req.Header.Add("Authorization", session.authorization)
+		session.logger.Printf("Sending request: [method: %s] [uri: %s] body: %s",
+			method, fmt.Sprintf("%s%s", session.apiUri, endpoint), string(bs))
 	} else {
 		req, err = http.NewRequest(method,
 			fmt.Sprintf("%s%s", session.apiUri, endpoint),
@@ -298,8 +300,10 @@ func doRequest(session *Session, method, endpoint string, args interface{}) ([]b
 
 		req.Header.Add("Accept", "*/*")
 		req.Header.Add("Authorization", session.authorization)
+		session.logger.Printf("Sending request: [method: %s] [uri: %s]",
+			method, fmt.Sprintf("%s%s", session.apiUri, endpoint))
 	}
-	session.logger.Printf("Sending request: %#v", *req)
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -307,7 +311,7 @@ func doRequest(session *Session, method, endpoint string, args interface{}) ([]b
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	session.logger.Printf("Received response: %#v", body)
+	session.logger.Printf("Received response: %s", string(body))
 	if err != nil {
 		return nil, err
 	}
