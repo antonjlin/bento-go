@@ -6,3 +6,18 @@ go:
   - "1.10.x"
   - "1.11.x"
   - master
+
+# Thanks https://blog.antoine-augusti.fr/2015/11/continuous-integration-and-code-coverage-in-golang/
+
+before_install:
+  - go get github.com/modocache/gover
+script:
+  # Run the unit tests suite
+  - go test -v ./...
+  # Collect coverage reports
+  - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -i sh -c {}
+  # Merge coverage reports
+  - gover . coverprofile.txt
+after_success:
+  # Send coverage reports to Codecov
+  - bash < (curl -s https://codecov.io/bash) -f coverprofile.txt
