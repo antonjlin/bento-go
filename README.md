@@ -1,6 +1,13 @@
 # bento
---
-    import "github.com/knusbaum/bento-go"
+
+[![Travis CI](https://img.shields.io/travis/knusbaum/bento-go/master.svg?style=flat-square)](https://travis-ci.org/knusbaum/bento-go)
+[![Software License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](https://github.com/knusbaum/bento-go/blob/master/LICENSE.md)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/knusbaum/bento-go)
+[![Coverage Status](http://codecov.io/github/knusbaum/bento-go/coverage.svg?branch=master)](http://codecov.io/github/knusbaum/bento-go?branch=master)
+
+```
+import "github.com/knusbaum/bento-go"
+```
 
 Package bento provides an interface to the bentoforbusiness.com API. Please see
 https://apidocs.bentoforbusiness.com/ for detailed info on how the API works.
